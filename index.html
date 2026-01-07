@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Mastery – Zero to Corporate</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --excel-green: #217346;
+            --excel-green-light: #e8f5e9;
+            --excel-green-dark: #1a5c38;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .heading-font {
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+        
+        /* Dark mode styles */
+        .dark ::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4a5568;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+        
+        /* Excel-like table styling */
+        .excel-table {
+            border-collapse: collapse;
+            width: 100%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .excel-table th {
+            background-color: var(--excel-green-light);
+            border: 1px solid #d1d5db;
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .excel-table td {
+            border: 1px solid #d1d5db;
+            padding: 8px 12px;
+        }
+        
+        .excel-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        .dark .excel-table th {
+            background-color: #2d3748;
+            border-color: #4a5568;
+        }
+        
+        .dark .excel-table td {
+            border-color: #4a5568;
+        }
+        
+        .dark .excel-table tr:nth-child(even) {
+            background-color: #374151;
+        }
+        
+        /* Formula box styling */
+        .formula-box {
+            background-color: #f3f4f6;
+            border-left: 4px solid var(--excel-green);
+            font-family: 'Courier New', monospace;
+            padding: 12px 16px;
+            border-radius: 4px;
+        }
+        
+        .dark .formula-box {
+            background-color: #374151;
+        }
+        
+        /* Callout boxes */
+        .callout-tip {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 16px;
+            border-radius: 4px;
+            margin: 16px 0;
+        }
+        
+        .callout-warning {
+            background-color: #fff8e1;
+            border-left: 4px solid #ff9800;
+            padding: 16px;
+            border-radius: 4px;
+            margin: 16px 0;
+        }
+        
+        .callout-note {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 16px;
+            border-radius: 4px;
+            margin: 16px 0;
+        }
+        
+        .dark .callout-tip {
+            background-color: #1a472a;
+        }
+        
+        .dark .callout-warning {
+            background-color: #5c3700;
+        }
+        
+        .dark .callout-note {
+            background-color: #1e3a5f;
+        }
+        
+        /* Progress bar */
+        .reading-progress {
+            height: 4px;
+            background-color: var(--excel-green);
+            width: 0%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+        
+        /* Sidebar animation */
+        .sidebar-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        /* Search highlight */
+        .search-highlight {
+            background-color: #ffeb3b;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        .dark .search-highlight {
+            background-color: #fbbf24;
+            color: #1f2937;
+        }
+        
+        /* Module card styling */
+        .module-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        /* Excel formula syntax highlighting */
+        .formula-function {
+            color: #d35400;
+            font-weight: bold;
+        }
+        
+        .formula-argument {
+            color: #2980b9;
+        }
+        
+        .formula-text {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+    <!-- Reading progress bar -->
+    <div class="reading-progress" id="readingProgress"></div>
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md">
+        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center justify-between w-full md:w-auto">
+                <div class="flex items-center space-x-2">
+                    <div class="bg-green-600 p-2 rounded-md">
+                        <i class="fas fa-table text-white text-xl"></i>
+                    </div>
+                    <h1 class="heading-font text-2xl font-bold text-green-700 dark:text-green-400">Excel Mastery – Zero to Corporate</h1>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button id="mobileMenuBtn" class="md:hidden text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="hidden md:flex space-x-6 mt-4 md:mt-0" id="mainNav">
+                <a href="#home" class="nav-link font-medium hover:text-green-600 dark:hover:text-green-400 transition">Home</a>
+                <a href="#modules" class="nav-link font-medium hover:text-green-600 dark:hover:text-green-400 transition">Modules</a>
+                <a href="#projects" class="nav-link font-medium hover:text-green-600 dark:hover:text-green-400 transition">Projects</a>
+                <a href="#resources" class="nav-link font-medium hover:text-green-600 dark:hover:text-green-400 transition">Resources</a>
+                <a href="#career" class="nav-link font-medium hover:text-green-600 dark:hover:text-green-400 transition">Career</a>
+                <a href="#about" class="nav-link font-medium hover:text-green-600 dark:hover:text-green-400 transition">About</a>
+            </nav>
+            
+            <!-- Search and Dark Mode -->
+            <div class="flex items-center space-x-4 mt-4 md:mt-0 w-full md:w-auto">
+                <div class="relative flex-grow md:flex-grow-0">
+                    <input type="text" id="searchInput" placeholder="Search topics, functions..." class="w-full md:w-64 pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+                <button id="darkModeToggle" class="bg-gray-200 dark:bg-gray-700 p-2 rounded-full">
+                    <i class="fas fa-moon text-gray-800 dark:text-yellow-300"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-6 flex flex-col lg:flex-row">
+        <!-- Sidebar (Book Table of Contents) -->
+        <aside id="sidebar" class="lg:w-1/4 xl:w-1/5 mb-8 lg:mb-0 lg:sticky lg:top-24 lg:h-[calc(100vh-8rem)] lg:overflow-y-auto">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 border border-gray-200 dark:border-gray-700">
+                <h2 class="heading-font text-xl font-bold mb-4 text-green-700 dark:text-green-400 flex items-center">
+                    <i class="fas fa-book mr-2"></i> Excel Modules
+                </h2>
+                
+                <div id="modulesAccordion" class="space-y-2">
+                    <!-- All modules will be generated by JavaScript -->
+                </div>
+                
+                <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <h3 class="font-bold mb-2">Quick Links</h3>
+                    <div class="space-y-2">
+                        <a href="#formulas" class="flex items-center text-green-600 dark:text-green-400 hover:underline">
+                            <i class="fas fa-calculator mr-2"></i> Important Formulas
+                        </a>
+                        <a href="#projects" class="flex items-center text-green-600 dark:text-green-400 hover:underline">
+                            <i class="fas fa-chart-bar mr-2"></i> Real Projects
+                        </a>
+                        <a href="#resources" class="flex items-center text-green-600 dark:text-green-400 hover:underline">
+                            <i class="fas fa-download mr-2"></i> Download Templates
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-3 bg-green-50 dark:bg-gray-700 rounded-lg">
+                    <h4 class="font-bold text-sm mb-2 flex items-center">
+                        <i class="fas fa-chart-line mr-2 text-green-600"></i> Your Progress
+                    </h4>
+                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mb-2">
+                        <div id="progressBar" class="bg-green-600 h-2 rounded-full" style="width: 5%"></div>
+                    </div>
+                    <p class="text-xs text-gray-600 dark:text-gray-400"><span id="completedCount">1</span>/20 modules completed</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="lg:w-3/4 xl:w-4/5 lg:pl-8" id="mainContent">
+            <!-- Welcome Section -->
+            <section id="home" class="mb-12">
+                <div class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-gray-800 dark:to-gray-800 rounded-2xl p-6 md:p-8 shadow-lg border border-green-100 dark:border-gray-700">
+                    <h2 class="heading-font text-3xl font-bold mb-4 text-green-700 dark:text-green-400">Master Excel from Beginner to Advanced</h2>
+                    <p class="text-lg mb-6">Learn Microsoft Excel step-by-step with real-life practical examples used in corporate jobs. This comprehensive guide covers everything from basic data handling to advanced automation and dashboards.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow module-card">
+                            <div class="text-green-600 dark:text-green-400 text-2xl mb-2">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <h3 class="font-bold mb-1">20 Modules</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Complete step-by-step curriculum</p>
+                        </div>
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow module-card">
+                            <div class="text-green-600 dark:text-green-400 text-2xl mb-2">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h3 class="font-bold mb-1">Real Projects</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Corporate dashboards & reports</p>
+                        </div>
+                        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow module-card">
+                            <div class="text-green-600 dark:text-green-400 text-2xl mb-2">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h3 class="font-bold mb-1">Self-Paced</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Learn at your own speed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="callout-tip">
+                        <div class="flex items-start">
+                            <i class="fas fa-lightbulb text-green-600 dark:text-green-400 mr-2 mt-1"></i>
+                            <div>
+                                <strong>Pro Tip:</strong> Start with Module 1 if you're new to Excel. Even experienced users can benefit from reviewing shortcuts and best practices.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Modules Content -->
+            <section id="modules">
+                <h2 class="heading-font text-2xl font-bold mb-6 text-gray-800 dark:text-white border-b pb-2">Excel Learning Modules</h2>
+                
+                <!-- All modules will be generated by JavaScript here -->
+                <div id="modulesContainer"></div>
+            </section>
+            
+            <!-- Important Formulas Section -->
+            <section id="formulas" class="mb-12 mt-16">
+                <h2 class="heading-font text-2xl font-bold mb-6 text-gray-800 dark:text-white border-b pb-2">Important Excel Formulas</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="formulasContainer">
+                    <!-- Formulas will be generated by JavaScript -->
+                </div>
+            </section>
+            
+            <!-- Projects Section -->
+            <section id="projects" class="mb-12">
+                <h2 class="heading-font text-2xl font-bold mb-6 text-gray-800 dark:text-white border-b pb-2">Real Corporate Projects</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 module-card">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-600 text-white p-3 rounded-lg mr-4">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Sales Dashboard</h3>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">Create an interactive sales dashboard with pivot tables, charts, and slicers for real-time sales analysis.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 px-3 py-1 rounded-full text-xs">Pivot Tables</span>
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 px-3 py-1 rounded-full text-xs">Charts</span>
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300 px-3 py-1 rounded-full text-xs">Slicers</span>
+                        </div>
+                        <a href="#module19" class="text-green-600 dark:text-green-400 font-medium hover:underline">Learn in Module 19 →</a>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700 module-card">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-purple-600 text-white p-3 rounded-lg mr-4">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">HR Dashboard</h3>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">Build a comprehensive HR dashboard for employee tracking, attendance, and payroll management.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300 px-3 py-1 rounded-full text-xs">Database</span>
+                            <span class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300 px-3 py-1 rounded-full text-xs">Payroll</span>
+                            <span class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300 px-3 py-1 rounded-full text-xs">Dashboard</span>
+                        </div>
+                        <a href="#module12" class="text-green-600 dark:text-green-400 font-medium hover:underline">Learn in Module 12 →</a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Resources Section -->
+            <section id="resources" class="mb-12">
+                <h2 class="heading-font text-2xl font-bold mb-6 text-gray-800 dark:text-white border-b pb-2">Learning Resources</h2>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="text-center p-4">
+                            <div class="text-green-600 dark:text-green-400 text-4xl mb-4">
+                                <i class="fas fa-file-excel"></i>
+                            </div>
+                            <h4 class="font-bold mb-2">Practice Files</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Download real Excel files for each module</p>
+                        </div>
+                        
+                        <div class="text-center p-4">
+                            <div class="text-green-600 dark:text-green-400 text-4xl mb-4">
+                                <i class="fas fa-download"></i>
+                            </div>
+                            <h4 class="font-bold mb-2">5000+ Templates</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Ready-to-use templates for various industries</p>
+                        </div>
+                        
+                        <div class="text-center p-4">
+                            <div class="text-green-600 dark:text-green-400 text-4xl mb-4">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <h4 class="font-bold mb-2">Certification</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Get certified after completing all modules</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="fixed bottom-6 right-6 bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition opacity-0 invisible z-40">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 dark:bg-gray-900 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-600 p-2 rounded-md mr-3">
+                            <i class="fas fa-table text-white"></i>
+                        </div>
+                        <h2 class="heading-font text-2xl font-bold">Excel Mastery</h2>
+                    </div>
+                    <p class="text-gray-400">Learn Excel step-by-step with real corporate examples.</p>
+                    <p class="text-gray-400 mt-2 text-sm">© 2023 Excel Mastery – Zero to Corporate. All rights reserved.</p>
+                </div>
+                
+                <div class="mb-6 md:mb-0">
+                    <h3 class="font-bold text-lg mb-4">Keep Learning Excel</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="bg-gray-700 hover:bg-green-600 p-2 rounded-full transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-green-600 p-2 rounded-full transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-green-600 p-2 rounded-full transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-green-600 p-2 rounded-full transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-green-400 transition">Home</a></li>
+                        <li><a href="#modules" class="text-gray-400 hover:text-green-400 transition">Modules</a></li>
+                        <li><a href="#resources" class="text-gray-400 hover:text-green-400 transition">Resources</a></li>
+                        <li><a href="#career" class="text-gray-400 hover:text-green-400 transition">Career Tips</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>This website is for educational purposes. Microsoft Excel is a trademark of Microsoft Corporation.</p>
+                <p class="mt-2">Practice files and templates available for download in Module 16.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // All modules data with complete topics
+        const modulesData = [
+            {
+                id: 1,
+                title: "Module 1. Basics & Data Handling",
+                description: "Master the Excel interface, workbook structure, and essential data handling techniques.",
+                importance: "This foundation is critical for all Excel work. Proper data entry, formatting, and navigation skills save hours of work and prevent errors in corporate environments.",
+                topics: [
+                    {
+                        name: "Excel Interface",
+                        what: "The Excel interface consists of various components like the Ribbon, Formula Bar, Worksheet Area, and Status Bar that help you navigate and use Excel efficiently.",
+                        why: "Understanding the Excel interface is fundamental to working efficiently. It helps you locate tools quickly, customize your workspace, and improve productivity.",
+                        corporateUse: "In corporate jobs, employees need to work quickly with large datasets. Knowing where to find tools like PivotTables, conditional formatting, and data validation saves time and reduces errors.",
+                        formula: "Quick Access Toolbar: Right-click any command → 'Add to Quick Access Toolbar'",
+                        example: "A financial analyst needs to prepare monthly reports. By customizing their Excel interface with financial functions, formatting tools, and PivotTable options in the Quick Access Toolbar, they reduce report preparation time by 30%.",
+                        tips: "Use Alt key to see keyboard shortcuts for all ribbon commands. This helps you work faster without reaching for the mouse."
+                    },
+                    {
+                        name: "Workbook এবং Worksheet কী?",
+                        what: "A Workbook is the entire Excel file (with .xlsx extension) that contains one or more Worksheets. A Worksheet is a single page/spreadsheet within a workbook where you enter and manipulate data.",
+                        why: "Workbooks help organize related data into separate files, while worksheets allow you to categorize different data sets within the same file. This structure is essential for managing complex projects with multiple data sources.",
+                        corporateUse: "In corporate finance departments, different worksheets are used for each month's data within a single annual budget workbook, making it easy to consolidate and analyze yearly trends.",
+                        formula: "Reference another worksheet: =Sheet2!A1\nReference another workbook: =[Budget.xlsx]Sheet1!$A$1",
+                        example: "A project manager maintains a workbook with worksheets for each project phase (Planning, Execution, Monitoring, Closure) to track progress and resources allocation.",
+                        tips: "Use consistent naming conventions for worksheets (e.g., 'Jan_Sales', 'Feb_Sales') and color-code worksheet tabs for quick identification."
+                    },
+                    {
+                        name: "Data Input ও Cell Formatting",
+                        what: "Data input involves entering values, text, dates, and formulas into cells. Cell formatting changes how data appears (fonts, colors, borders, number formats) without changing the actual data.",
+                        why: "Proper formatting makes data easier to read, understand, and analyze. It also ensures consistency in reports and presentations.",
+                        corporateUse: "Financial reports require specific formatting: currency symbols, percentage formats, thousand separators, and conditional formatting to highlight variances. Proper formatting makes reports professional and easier to understand for stakeholders.",
+                        formula: "Currency: Ctrl+Shift+$\nPercentage: Ctrl+Shift+%\nDate: Ctrl+Shift+#\nNumber with comma: Ctrl+Shift+!",
+                        example: "A sales report showing revenue in currency format with thousand separators, percentages for growth rates, and conditional formatting to highlight top performers in green and underperformers in red.",
+                        tips: "Use Format Painter (Ctrl+Shift+C to copy format, Ctrl+Shift+V to paste format) to quickly apply consistent formatting across your worksheet."
+                    },
+                    {
+                        name: "Excel Shortcut Keys",
+                        what: "Keyboard shortcuts that allow you to perform tasks quickly without using the mouse.",
+                        why: "Shortcuts dramatically increase productivity and speed up common tasks. They reduce reliance on the mouse and help maintain workflow continuity.",
+                        corporateUse: "Data analysts working with large datasets use shortcuts to navigate, select, and manipulate data quickly, saving hours each week compared to mouse-only navigation.",
+                        formula: "Ctrl+C (Copy), Ctrl+V (Paste), Ctrl+Z (Undo), Ctrl+S (Save), Ctrl+F (Find), Ctrl+P (Print), F2 (Edit cell), F4 (Repeat last action/Toggle absolute reference)",
+                        example: "An accountant closing monthly books uses Ctrl+Shift+Arrow keys to select large data ranges, Alt+= to auto-sum columns, and Ctrl+Page Up/Down to navigate between worksheets.",
+                        tips: "Learn 5 new shortcuts each week and practice them until they become muscle memory. Focus on shortcuts for tasks you perform most frequently."
+                    },
+                    {
+                        name: "Creating Invoices or Sales Reports",
+                        what: "Designing and creating professional invoices or sales reports using Excel's formatting and calculation capabilities.",
+                        why: "Excel provides flexible templates and formulas to create customized invoices and reports that can be easily updated and calculated automatically.",
+                        corporateUse: "Small businesses and freelancers use Excel to create customizable invoices that automatically calculate totals, taxes, and discounts. Sales teams generate monthly performance reports.",
+                        formula: "Total: =SUM(range)\nTax: =Total*TaxRate\nGrand Total: =Total+Tax\nDiscount: =Subtotal*DiscountRate",
+                        example: "A consulting firm creates client invoices with company branding, itemized services, hourly rates, automatic calculations for subtotals, taxes (10%), and final amounts.",
+                        tips: "Use Excel's built-in invoice templates as a starting point, then customize them to match your brand. Include data validation for fields like dates and amounts to prevent errors."
+                    },
+                    {
+                        name: "Cut, Copy, Paste, Paste Special",
+                        what: "Basic clipboard operations for moving or duplicating data. Paste Special offers advanced pasting options like values, formulas, formats, or comments only.",
+                        why: "These are fundamental operations for data manipulation. Paste Special is particularly useful when you need to paste specific aspects of copied data.",
+                        corporateUse: "Financial analysts use Paste Special → Values to convert formulas to static numbers before sharing reports. Paste Special → Transpose to rearrange data from rows to columns.",
+                        formula: "Cut: Ctrl+X\nCopy: Ctrl+C\nPaste: Ctrl+V\nPaste Special: Ctrl+Alt+V",
+                        example: "When preparing a quarterly report, an analyst copies calculated values from a working sheet and uses Paste Special → Values to paste only the results (not formulas) into the final report.",
+                        tips: "Use Paste Special → Formatting to quickly apply the same formatting to multiple ranges. Use Paste Special → Add/Multiply to perform operations on existing data."
+                    },
+                    {
+                        name: "Move Or Copy (Tab and Sheets)",
+                        what: "Techniques for moving or copying entire worksheets within the same workbook or to different workbooks.",
+                        why: "This helps organize workbooks, create templates, duplicate worksheets with similar structures, and reorganize data efficiently.",
+                        corporateUse: "Project managers create a template worksheet for project tracking, then copy it for each new project. Accountants copy monthly worksheets to create new ones for the next month.",
+                        formula: "Right-click worksheet tab → Move or Copy\nCheck 'Create a copy' to duplicate instead of move",
+                        example: "An HR manager has a standardized employee evaluation form worksheet. For each performance review cycle, they copy the worksheet and rename it for each employee.",
+                        tips: "When moving sheets between workbooks, ensure all referenced formulas still work correctly. Use 'Move to End' to organize worksheets in logical order."
+                    },
+                    {
+                        name: "Insert ও Delete",
+                        what: "Adding or removing rows, columns, cells, or worksheets from your Excel workbook.",
+                        why: "These operations help you structure your data appropriately, make space for new information, or remove unnecessary elements.",
+                        corporateUse: "Data analysts insert columns to add calculated fields (like profit margin) to datasets. They delete blank rows that might interfere with data analysis functions.",
+                        formula: "Insert row: Ctrl+Shift+Plus (+)\nDelete row: Ctrl+Minus (-)\nInsert column: Ctrl+Shift+Plus (+)\nDelete column: Ctrl+Minus (-)",
+                        example: "When a sales report receives a new product category, the analyst inserts a column between existing categories to maintain logical grouping.",
+                        tips: "When inserting rows or columns, Excel adjusts formulas automatically. However, check named ranges and references after extensive insertions or deletions."
+                    },
+                    {
+                        name: "Find & Replace, Go to Special",
+                        what: "Tools for locating specific content (Find), replacing it with new content (Replace), or selecting cells with specific characteristics (Go to Special).",
+                        why: "These tools save time when working with large datasets by quickly locating, modifying, or selecting specific cells based on criteria.",
+                        corporateUse: "Accountants use Find & Replace to update account codes across multiple worksheets. Auditors use Go to Special → Formulas to quickly review all formulas in a worksheet.",
+                        formula: "Find: Ctrl+F\nReplace: Ctrl+H\nGo to Special: F5 → Special",
+                        example: "During a company rebranding, the marketing team uses Find & Replace to update the old company name to the new one across all product catalogs and price lists.",
+                        tips: "Use wildcards in Find: ? for single character, * for multiple characters. Use 'Replace All' cautiously—always check a few replacements first."
+                    },
+                    {
+                        name: "Flash Fill ও Autofill ব্যবহার",
+                        what: "Flash Fill intelligently recognizes patterns in your data entry and auto-completes remaining cells. AutoFill extends a series or pattern based on selected cells.",
+                        why: "These features automate repetitive data entry tasks, saving significant time and reducing manual errors.",
+                        corporateUse: "HR departments use Flash Fill to separate full names into first and last name columns. Finance teams use AutoFill to create date series for monthly reports.",
+                        formula: "Flash Fill: Ctrl+E\nAutoFill: Drag fill handle (small square at cell's bottom-right corner)",
+                        example: "An e-commerce manager has a column of product codes like 'PROD-001'. Using Flash Fill, they quickly extract just the numeric portion '001' into a new column.",
+                        tips: "Flash Fill works best with consistent patterns. If it doesn't recognize the pattern immediately, provide 2-3 more examples before trying again."
+                    },
+                    {
+                        name: "Date এবং Serial No Insert টেকনিক",
+                        what: "Methods for efficiently entering dates and serial numbers in Excel, including using fill handle and functions.",
+                        why: "Proper date handling is crucial for time-based analysis. Serial numbers help identify and organize records systematically.",
+                        corporateUse: "Inventory managers use serial numbers to track products. Project managers use date series to create project timelines and Gantt charts.",
+                        formula: "Date: Use DATE(year, month, day) function\nSerial number: Use ROW() function or fill handle with series",
+                        example: "A logistics company creates a shipment tracking sheet with automatically generated serial numbers for each shipment and dates for expected delivery.",
+                        tips: "Use Ctrl+; to insert today's date. Use the fill handle with the right mouse button for more fill options like 'Fill Weekdays' only."
+                    },
+                    {
+                        name: "Freeze Panes ও Split",
+                        what: "Freeze Panes keeps specific rows and/or columns visible while scrolling. Split divides the window into separate panes that can be scrolled independently.",
+                        why: "These features help navigate large worksheets by keeping headers visible or comparing different sections of the same worksheet.",
+                        corporateUse: "Financial analysts freeze the top row containing column headers when scrolling through large financial statements. Researchers split windows to compare data from different sections of a large dataset.",
+                        formula: "Freeze Panes: View → Freeze Panes\nSplit: View → Split",
+                        example: "A data analyst working with a 5000-row sales dataset freezes the header row (row 1) and the first three columns (Region, Product, Category) to always see these identifiers while scrolling.",
+                        tips: "Use Freeze Top Row or Freeze First Column for simple cases. Use Freeze Panes for more complex scenarios where you need both rows and columns frozen."
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Module 2. Print & Page Setup",
+                description: "Learn professional printing techniques for reports, invoices, and dashboards.",
+                importance: "Proper printing setup ensures your Excel reports look professional when shared physically or as PDFs. Incorrect printing wastes paper and looks unprofessional in corporate settings.",
+                topics: [
+                    "Page Layout View এবং Print Preview",
+                    "Orientation, Size, Margins",
+                    "Set Print Area",
+                    "Fit Sheet to One Page",
+                    "Page Break এবং Print Titles",
+                    "Header/Footer, Watermarks, Page No",
+                    "Multiple Sheets একসাথে প্রিন্ট করা"
+                ]
+            },
+            {
+                id: 3,
+                title: "Module 3. Cell References & Basics Functions",
+                description: "Master relative, absolute, and mixed references along with essential Excel functions.",
+                importance: "Understanding cell references is fundamental to creating effective formulas. Basic functions form the building blocks for all Excel calculations.",
+                topics: [
+                    "Relative Cell Reference (A1, B2...)",
+                    "Absolute Cell Reference ($A$1, $B$2...)",
+                    "Mixed Cell Reference (A$1, $A1)",
+                    "Cell Reference-এর ব্যবহার কবে কোথায়?",
+                    "Practical Examples: Discount, Commission Calculation",
+                    "ফর্মুলা র্মু কীভাবে কাজ করে?",
+                    "Basic Arithmetic (+, -, *, /)",
+                    "Rand between, Sum, Average, Min, Max, Count, Counta, Small, Large, Product, Indirect, Rank, Upper, Lower, Proper"
+                ]
+            },
+            {
+                id: 4,
+                title: "Module 4. Logic & Text Functions Mastery",
+                description: "Learn logical functions (IF, AND, OR) and text manipulation functions for advanced data processing.",
+                importance: "Logical functions enable decision-making in formulas. Text functions are essential for cleaning and manipulating text data, which constitutes much of real-world data.",
+                topics: [
+                    "If, Else, And, Or, Not, IFS",
+                    "Nested If, Switch, If Error",
+                    "Isnumber, Istext, IsBlank",
+                    "Sumif, Sumifs, Countif, Countifs, AVERAGEIFS",
+                    "Dsum, Dcount",
+                    "Concatenate, Left, Right, Mid",
+                    "Len, Find, Clean, Trim, Indirect",
+                    "For / For Each Loop",
+                    "MsgBox, InputBox",
+                    "VBA দিয়ে Sheet Automation",
+                    "TextJoin, Textsplit, Textafter, Textbefore, Text Function",
+                    "ToCol, ToRow, ByRow, ByCol, ChooseCol, ChooseRow",
+                    "Time Calculation and Time Function",
+                    "Today, Now, Yearfrc, Datedif, Year, Month, Day, Date, Edate, Eomonth, Workday.Intl, Weekday",
+                    "Real-World Examples",
+                    "IFERROR"
+                ]
+            },
+            {
+                id: 5,
+                title: "Module 5. Lookup Functions & Dynamic Tools",
+                description: "Master lookup functions (VLOOKUP, XLOOKUP, INDEX-MATCH) for data retrieval and dynamic analysis.",
+                importance: "Lookup functions are among the most powerful and frequently used Excel functions in business environments for combining data from different sources.",
+                topics: [
+                    "Lookup, Vlookup, Hlookup",
+                    "Xlookup (Modern Excel Lookup)",
+                    "Vlookup and Xlookup Examples",
+                    "Dget Function",
+                    "Index And Match",
+                    "Choose, Offset and Take",
+                    "Real-World Examples"
+                ]
+            },
+            {
+                id: 6,
+                title: "Module 6. Sorting, Filtering, Grouping, Protection & Analysis",
+                description: "Learn data organization techniques, protection methods, and what-if analysis tools.",
+                importance: "These skills are essential for data analysis, report preparation, and protecting sensitive corporate data in shared workbooks.",
+                topics: [
+                    "Sorting (Single Level & Multi-Level)",
+                    "Filtering (Basic & Advanced)",
+                    "Text, Number & Date Filters",
+                    "Filter By Cell Color or Font Color",
+                    "Custom Filters with Conditions",
+                    "Grouping And Ungrouping Data",
+                    "Subtotals With Automatic Grouping",
+                    "Expand/Collapse Grouped Sections",
+                    "Subtotal, GroupBy and Aggregate Function",
+                    "Real-World Examples",
+                    "শীট ও ওয়ার্কবুর্ক ক পাসওয়ার্ড দিয়ে সুরক্ষা",
+                    "নির্দিষ্ট রেঞ্জ লক/আনলক করা",
+                    "ফর্মুলা র্মু লক করে রক্ষা করা",
+                    "What-If Analysis: Scenario Manager, Goal Seek"
+                ]
+            },
+            {
+                id: 7,
+                title: "Module 7. Conditional Formatting & Validation",
+                description: "Master visual data analysis with conditional formatting and ensure data integrity with validation rules.",
+                importance: "Conditional formatting makes patterns and trends immediately visible. Data validation prevents errors in data entry, crucial for maintaining data quality.",
+                topics: [
+                    "Applying Built-In Rules",
+                    "Highlighting Duplicate & Unique Values",
+                    "Using Data Bars",
+                    "Applying Color Scales",
+                    "Utilizing Icon Sets",
+                    "Conditional Formatting with Formulas (AND, OR)",
+                    "Multiple Condition Formatting",
+                    "Managing & Clearing Rules",
+                    "Real-World Use Cases",
+                    "Drop-down List Creation (Static & Dynamic)",
+                    "Number, Date & Text Length Restriction",
+                    "Custom Formula Validation",
+                    "Dependent Drop-down Lists",
+                    "Preventing Duplicate Entries",
+                    "Input Messages & Error Alerts",
+                    "Named Ranges for Validation",
+                    "Conditional Input Based on Other Cells",
+                    "Validation with Conditional Formatting",
+                    "Apply, Edit & Remove Validation Rules"
+                ]
+            },
+            {
+                id: 8,
+                title: "Module 8. Hyperlink & Data Visualization",
+                description: "Learn to create interactive workbooks with hyperlinks and visualize data with charts and sparklines.",
+                importance: "Hyperlinks create navigation within workbooks, while effective data visualization communicates insights quickly to stakeholders.",
+                topics: [
+                    "Hyperlink কী এবং এর ব্যবহার",
+                    "Excel-এ Hyperlink তৈরি করার পদ্ধতি",
+                    "ওয়েবসাইট, ফাইল, এবং ইমেইলে লিংক দেওয়া",
+                    "একই ফাইলে Sheet বা Cell-এ লিংক করা",
+                    "Table of Contents তৈরি করার জন্য Hyperlink ব্যবহার",
+                    "Hyperlink Edit ও Remove করা",
+                    "Hyperlink-এর নিরাপত্তা বিষয়ক সতর্কতা র্ক",
+                    "Column চার্ট, Line চার্ট, Pie চার্ট, Bar চার্ট",
+                    "Area চার্ট, Scatter Plot, Combo চার্ট",
+                    "Histogram, Waterfall চার্ট",
+                    "ডিজাইন ও ফরম্যাটিং: কাস্টমাইজ",
+                    "Sparklines",
+                    "Real-World Examples"
+                ]
+            },
+            {
+                id: 9,
+                title: "Module 9. Pivot Table & Advanced Analysis",
+                description: "Master PivotTables for dynamic data analysis, summarization, and reporting.",
+                importance: "PivotTables are one of Excel's most powerful features for data analysis. They're essential for summarizing, analyzing, exploring, and presenting data in business environments.",
+                topics: [
+                    "Pivot Table Introduction",
+                    "Creating A Basic Pivot Table",
+                    "Pivot Table Field List Explained",
+                    "Rearranging Row & Column Fields",
+                    "Adding Values and Summarizing Data",
+                    "Changing Summary Functions (Sum, Count, Average, Etc.)",
+                    "Grouping Data (By Date, Numbers, Or Text)",
+                    "Using Label Filters and Value Filters",
+                    "Sorting Pivot Table Data",
+                    "Using Slicers and Timeline",
+                    "Drill Down (Double-Click to View Underlying Data)",
+                    "Show Values As",
+                    "Calculated Fields and Calculated Items",
+                    "Refreshing Pivot Table Data",
+                    "Connecting Pivot Table to Dynamic Data Range",
+                    "Using Tables as Pivot Data Source",
+                    "Creating Pivot Table from Multiple Sheets",
+                    "Changing Pivot Table Layout and Design",
+                    "Creating Pivot Charts from Pivot Table",
+                    "Grouping Dates into Months, Quarters, And Years",
+                    "Managing Multiple Pivot Tables on the Same Report",
+                    "Using Power Pivot with Pivot Table",
+                    "Best Practices for Large Data Sets",
+                    "Real-Life Scenarios with Pivot Table"
+                ]
+            },
+            {
+                id: 10,
+                title: "Module 10. Excel Automation",
+                description: "Introduction to macros and VBA for automating repetitive Excel tasks.",
+                importance: "Automation saves hours of manual work, reduces errors, and enables complex workflows that would be impractical to do manually.",
+                topics: [
+                    "Macros কী ও কিভাবে কাজ করে?",
+                    "Macro record",
+                    "Buttons, dropdown",
+                    "Record Macro & Run",
+                    "Vba Overview (Basic Introduction)",
+                    "Control Groups (Buttons, Dropdown)"
+                ]
+            },
+            {
+                id: 11,
+                title: "Module 11. Excel-এ AI এর ব্যবহার",
+                description: "Learn to leverage AI tools and features within Excel for enhanced productivity.",
+                importance: "AI integration is transforming how we work with data. Understanding these tools provides a competitive advantage in modern workplaces.",
+                topics: [
+                    "Excel এর মধ্যে Ai-চালিত ফিচারসমূহ (Ideas, Data Types, Smart Lookup)",
+                    "Chatgpt/Ai Tools দিয়ে Excel Task Automation",
+                    "Ai দিয়ে রিপোর্ট লেখা ও ডেটা ব্যাখ্যা",
+                    "Module 12.Excel for HREmployee Database তৈরি ও Maintain",
+                    "Attendance Tracker & Leave Management Sheet",
+                    "Payroll Calculation: Basic Salary, Allowance, Bonus",
+                    "Overtime Calculation",
+                    "Hr-র জন্য প্রয়োজনীয় ফাংশন"
+                ]
+            },
+            {
+                id: 12,
+                title: "Module 12. Excel for HR",
+                description: "Apply Excel skills specifically to Human Resources tasks and processes.",
+                importance: "HR departments rely heavily on Excel for employee data management, payroll, attendance tracking, and reporting.",
+                topics: [
+                    "Employee Database তৈরি ও Maintain",
+                    "Attendance Tracker & Leave Management Sheet",
+                    "Payroll Calculation: Basic Salary, Allowance, Bonus",
+                    "Overtime Calculation",
+                    "Hr-র জন্য প্রয়োজনীয় ফাংশন"
+                ]
+            },
+            {
+                id: 13,
+                title: "Module 13. Excel for Accounts & Finance",
+                description: "Master financial functions and accounting applications in Excel.",
+                importance: "Excel is the backbone of financial analysis, budgeting, forecasting, and accounting in most organizations.",
+                topics: [
+                    "Income & Expense Tracker",
+                    "Monthly Budget Sheet",
+                    "Profit & Loss Statement",
+                    "EMI, PV, FV, NPV, IRR, RATE",
+                    "Pmt: Emi বা কিস্তি হিসাব করা",
+                    "Fv: ভবিষ্যৎ মূল্যের হিসাব",
+                    "Pv: বর্তমান মূল্যের হিসাব",
+                    "Npv: নেট বর্তমান মূল্য (Investment Analysis)",
+                    "Irr: Internal Rate of Return",
+                    "Rate: কিস্তির সুদের হার নির্ণয়",
+                    "Loan Calculator তৈরির প্রজেক্ট"
+                ]
+            },
+            {
+                id: 14,
+                title: "Module 14. Excel for Sales & Marketing",
+                description: "Learn sales tracking, analysis, and forecasting techniques in Excel.",
+                importance: "Sales and marketing teams use Excel for tracking performance, analyzing campaigns, forecasting sales, and reporting to management.",
+                topics: [
+                    "Sales Tracker Sheet",
+                    "Target Vs Achievement Dashboard",
+                    "প্রয়োজনীয় ফাংশন",
+                    "Sales Forecasting Using Trendline & Chart"
+                ]
+            },
+            {
+                id: 15,
+                title: "Module 15. Career Tips & Next Steps",
+                description: "Guidance on leveraging Excel skills for career advancement and future learning.",
+                importance: "Knowing Excel is valuable, but knowing how to apply it for career growth is what creates opportunities.",
+                topics: [
+                    "Excel দিয়ে কিভাবে চাকরি পাওয়া যায়?",
+                    "Freelancing Vs Job: কোনটা আপনার জন্য উপযোগী?",
+                    "ভবিষ্যতের জন্য করণীয়: Power Bi, Sql, Ai Tools"
+                ]
+            },
+            {
+                id: 16,
+                title: "Module 16. Materials",
+                description: "Access practice files, assignments, templates, and certification materials.",
+                importance: "Practical application through exercises and real templates accelerates learning and skill development.",
+                topics: [
+                    "Practice Files",
+                    "Class-Wise Assignment",
+                    "Excel Templates (5k+)",
+                    "Add-Ins",
+                    "Final Exam",
+                    "কোর্স সার্টিফিকেট"
+                ]
+            },
+            {
+                id: 17,
+                title: "Module 17. Excel Tables (Corporate Essential)",
+                description: "Master Excel Tables for structured data management and dynamic analysis.",
+                importance: "Excel Tables provide automatic formatting, filtering, and structured references that make data management more efficient and less error-prone.",
+                topics: [
+                    "Convert Range to Table",
+                    "Structured References",
+                    "Table with Pivot",
+                    "Dynamic Table"
+                ]
+            },
+            {
+                id: 18,
+                title: "Module 18. Data Cleaning & Preparation",
+                description: "Learn techniques to clean and prepare data for analysis.",
+                importance: "Data cleaning constitutes 60-80% of data analysis work. Mastering these skills makes analysis more accurate and efficient.",
+                topics: [
+                    "Remove Duplicates",
+                    "Text to Columns",
+                    "Flash Fill",
+                    "TRIM, CLEAN",
+                    "Handling Missing Data"
+                ]
+            },
+            {
+                id: 19,
+                title: "Module 19. Dashboard Project (Real Corporate Feel)",
+                description: "Build professional dashboards for various business functions.",
+                importance: "Dashboards are how insights are communicated to decision-makers. Creating effective dashboards is a highly valued skill in corporate environments.",
+                topics: [
+                    "Sales Dashboard",
+                    "HR Dashboard",
+                    "Accounts Dashboard",
+                    "KPI Dashboard"
+                ]
+            },
+            {
+                id: 20,
+                title: "Module 20. Error Handling & Best Practice",
+                description: "Learn to prevent and handle errors, optimize performance, and follow corporate standards.",
+                importance: "Professional Excel work requires error-free models, optimized performance for large datasets, and adherence to corporate formatting standards.",
+                topics: [
+                    "Common Excel Errors",
+                    "File Size Optimization",
+                    "Performance Tips",
+                    "Corporate Formatting Rules"
+                ]
+            }
+        ];
+
+        // Important formulas data
+        const importantFormulas = [
+            {
+                name: "VLOOKUP",
+                syntax: "=VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])",
+                description: "Looks for a value in the first column of a table and returns a value in the same row from another column.",
+                category: "Lookup",
+                example: "Finding employee details from ID"
+            },
+            {
+                name: "XLOOKUP",
+                syntax: "=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])",
+                description: "Modern replacement for VLOOKUP/HLOOKUP. More flexible and powerful.",
+                category: "Lookup",
+                example: "Finding product price with multiple criteria"
+            },
+            {
+                name: "SUMIFS",
+                syntax: "=SUMIFS(sum_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+                description: "Adds cells that meet multiple criteria. Essential for conditional summing in reports.",
+                category: "Math",
+                example: "Sum sales for a specific product in a specific region"
+            },
+            {
+                name: "IF",
+                syntax: "=IF(logical_test, [value_if_true], [value_if_false])",
+                description: "Performs a logical test and returns one value if true, another if false.",
+                category: "Logical",
+                example: "Pass/Fail checking based on score"
+            },
+            {
+                name: "INDEX-MATCH",
+                syntax: "=INDEX(return_range, MATCH(lookup_value, lookup_range, 0))",
+                description: "More flexible alternative to VLOOKUP. Can look left and works with unsorted data.",
+                category: "Lookup",
+                example: "Two-way lookup (row and column)"
+            },
+            {
+                name: "COUNTIFS",
+                syntax: "=COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+                description: "Counts cells that meet multiple criteria across ranges.",
+                category: "Statistical",
+                example: "Count orders above $100 in January"
+            },
+            {
+                name: "CONCATENATE / TEXTJOIN",
+                syntax: "=TEXTJOIN(delimiter, ignore_empty, text1, [text2], ...)",
+                description: "Joins text from multiple ranges with a delimiter.",
+                category: "Text",
+                example: "Combine first and last names with a space"
+            },
+            {
+                name: "PMT",
+                syntax: "=PMT(rate, nper, pv, [fv], [type])",
+                description: "Calculates the payment for a loan based on constant payments and a constant interest rate.",
+                category: "Financial",
+                example: "Calculate monthly loan payments"
+            }
+        ];
+
+        // DOM Elements
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        const readingProgress = document.getElementById('readingProgress');
+        const searchInput = document.getElementById('searchInput');
+        const modulesAccordion = document.getElementById('modulesAccordion');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+        const sidebar = document.getElementById('sidebar');
+        const modulesContainer = document.getElementById('modulesContainer');
+        const formulasContainer = document.getElementById('formulasContainer');
+        const progressBar = document.getElementById('progressBar');
+        const completedCount = document.getElementById('completedCount');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate modules in sidebar
+            generateModulesInSidebar();
+            
+            // Generate modules content
+            generateModulesContent();
+            
+            // Generate formulas
+            generateFormulas();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Initialize first module as active
+            setActiveModule(1);
+            
+            // Check for dark mode preference
+            if (localStorage.getItem('darkMode') === 'enabled' || 
+                (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                enableDarkMode();
+            }
+            
+            // Update progress
+            updateProgress();
+        });
+
+        // Generate modules in sidebar
+        function generateModulesInSidebar() {
+            let modulesHTML = '';
+            
+            modulesData.forEach(module => {
+                const moduleNumber = module.id;
+                
+                modulesHTML += `
+                    <div class="module-item border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                        <button class="module-header flex justify-between items-center w-full p-3 text-left bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition" data-module="${moduleNumber}">
+                            <span class="font-medium">${module.title}</span>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="sidebar-accordion-content">
+                            <div class="p-2 space-y-1">
+                                ${module.topics.map((topic, index) => {
+                                    const topicNumber = index + 1;
+                                    const letter = String.fromCharCode(96 + topicNumber); // a, b, c, etc.
+                                    const topicName = typeof topic === 'string' ? topic : topic.name;
+                                    return `<a href="#module${moduleNumber}-topic${topicNumber}" class="topic-link block p-2 rounded hover:bg-green-50 dark:hover:bg-gray-700 transition" data-topic="${moduleNumber}.${topicNumber}">${letter}) ${topicName}</a>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // Append the generated modules to the accordion
+            modulesAccordion.innerHTML = modulesHTML;
+        }
+
+        // Generate modules content
+        function generateModulesContent() {
+            let modulesContentHTML = '';
+            
+            modulesData.forEach(module => {
+                const moduleNumber = module.id;
+                
+                // Module header
+                modulesContentHTML += `
+                    <div id="module${moduleNumber}" class="module-content mb-12">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-green-600 text-white rounded-lg p-3 mr-4">
+                                <span class="text-xl font-bold">${moduleNumber.toString().padStart(2, '0')}</span>
+                            </div>
+                            <div>
+                                <h3 class="heading-font text-2xl font-bold text-green-700 dark:text-green-400">${module.title}</h3>
+                                <p class="text-gray-600 dark:text-gray-400">${module.description}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="callout-note mb-6">
+                            <div class="flex items-start">
+                                <i class="fas fa-info-circle text-blue-600 dark:text-blue-400 mr-2 mt-1"></i>
+                                <div>
+                                    <strong>Why this module is important:</strong> ${module.importance}
+                                </div>
+                            </div>
+                        </div>
+                `;
+                
+                // Module topics
+                module.topics.forEach((topic, index) => {
+                    const topicNumber = index + 1;
+                    const letter = String.fromCharCode(96 + topicNumber);
+                    const topicName = typeof topic === 'string' ? topic : topic.name;
+                    
+                    modulesContentHTML += `
+                        <div id="module${moduleNumber}-topic${topicNumber}" class="topic-section mb-10 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                                    <span class="font-bold">${moduleNumber}.${topicNumber}</span>
+                                </div>
+                                <h4 class="text-xl font-bold">${letter}) ${topicName}</h4>
+                            </div>
+                    `;
+                    
+                    // If topic has detailed information (like in Module 1)
+                    if (typeof topic !== 'string') {
+                        modulesContentHTML += `
+                            <div class="mb-4">
+                                <h5 class="font-bold text-green-700 dark:text-green-400 mb-2 flex items-center">
+                                    <i class="fas fa-question-circle mr-2"></i> What is this?
+                                </h5>
+                                <p>${topic.what}</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h5 class="font-bold text-green-700 dark:text-green-400 mb-2 flex items-center">
+                                    <i class="fas fa-bullseye mr-2"></i> Why is it used?
+                                </h5>
+                                <p>${topic.why}</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h5 class="font-bold text-green-700 dark:text-green-400 mb-2 flex items-center">
+                                    <i class="fas fa-building mr-2"></i> Corporate Use Case
+                                </h5>
+                                <p>${topic.corporateUse}</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h5 class="font-bold text-green-700 dark:text-green-400 mb-2 flex items-center">
+                                    <i class="fas fa-laptop-code mr-2"></i> Excel Formula / Steps
+                                </h5>
+                                <div class="formula-box mb-3">
+                                    ${formatFormula(topic.formula)}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h5 class="font-bold text-green-700 dark:text-green-400 mb-2 flex items-center">
+                                    <i class="fas fa-chart-line mr-2"></i> Real-Life Example
+                                </h5>
+                                <p>${topic.example}</p>
+                            </div>
+                            
+                            <div class="callout-tip">
+                                <div class="flex items-start">
+                                    <i class="fas fa-lightbulb text-green-600 dark:text-green-400 mr-2 mt-1"></i>
+                                    <div>
+                                        <strong>Tip:</strong> ${topic.tips}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // For modules without detailed topic info
+                        modulesContentHTML += `
+                            <div class="mb-4">
+                                <p>This topic will be covered in detail with practical examples, formulas, and real-world applications.</p>
+                            </div>
+                            
+                            <div class="callout-tip">
+                                <div class="flex items-start">
+                                    <i class="fas fa-lightbulb text-green-600 dark:text-green-400 mr-2 mt-1"></i>
+                                    <div>
+                                        <strong>Coming Soon:</strong> Detailed content for "${topicName}" is being prepared with step-by-step instructions and practical examples.
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    modulesContentHTML += `</div>`;
+                });
+                
+                // Module footer
+                if (moduleNumber < modulesData.length) {
+                    const nextModule = modulesData[moduleNumber]; // moduleNumber is 1-based, array is 0-based
+                    modulesContentHTML += `
+                        <div class="mt-8 p-4 bg-blue-50 dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-900">
+                            <h5 class="font-bold text-blue-700 dark:text-blue-400 mb-2 flex items-center">
+                                <i class="fas fa-forward mr-2"></i> Continue Learning
+                            </h5>
+                            <p class="mb-3">Master these concepts before moving to the next module.</p>
+                            <a href="#module${moduleNumber + 1}" class="inline-flex items-center text-green-600 dark:text-green-400 font-medium hover:underline">
+                                Go to Module ${moduleNumber + 1}: ${nextModule.title}
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    `;
+                }
+                
+                modulesContentHTML += `</div>`;
+            });
+            
+            // Append the generated modules to the container
+            modulesContainer.innerHTML = modulesContentHTML;
+        }
+
+        // Generate formulas section
+        function generateFormulas() {
+            let formulasHTML = '';
+            
+            importantFormulas.forEach(formula => {
+                formulasHTML += `
+                    <div class="bg-white dark:bg-gray-800 p-5 rounded-xl shadow border border-gray-200 dark:border-gray-700 module-card">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="text-green-600 dark:text-green-400 text-2xl">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 px-2 py-1 rounded text-xs font-medium">${formula.category}</span>
+                        </div>
+                        <h4 class="font-bold text-lg mb-2">${formula.name}</h4>
+                        <div class="formula-box text-sm mb-3">
+                            ${formatFormula(formula.syntax)}
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">${formula.description}</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-500"><i class="fas fa-example mr-1"></i> ${formula.example}</p>
+                    </div>
+                `;
+            });
+            
+            formulasContainer.innerHTML = formulasHTML;
+        }
+
+        // Format formula with syntax highlighting
+        function formatFormula(formulaText) {
+            if (!formulaText) return '';
+            
+            // Simple syntax highlighting
+            let formatted = formulaText.replace(/(=)/g, '<span class="text-green-600 font-bold">$1</span>');
+            formatted = formatted.replace(/(VLOOKUP|XLOOKUP|SUMIFS|IF|INDEX|MATCH|COUNTIFS|TEXTJOIN|PMT|SUM|AVERAGE|MIN|MAX|COUNT|COUNTA)/gi, 
+                '<span class="formula-function">$1</span>');
+            formatted = formatted.replace(/(lookup_value|table_array|col_index_num|range_lookup|sum_range|criteria_range|logical_test)/gi,
+                '<span class="formula-argument">$1</span>');
+            formatted = formatted.replace(/(".*?")/g, '<span class="formula-text">$1</span>');
+            
+            // Preserve line breaks
+            formatted = formatted.replace(/\n/g, '<br>');
+            
+            return formatted;
+        }
+
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Dark mode toggle
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            
+            // Scroll to top button
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Update scroll progress
+            window.addEventListener('scroll', updateReadingProgress);
+            
+            // Search functionality
+            searchInput.addEventListener('input', handleSearch);
+            
+            // Mobile menu toggle
+            mobileMenuBtn.addEventListener('click', () => {
+                mainNav.classList.toggle('hidden');
+                mainNav.classList.toggle('flex');
+                mainNav.classList.toggle('flex-col');
+                mainNav.classList.toggle('absolute');
+                mainNav.classList.toggle('top-16');
+                mainNav.classList.toggle('left-0');
+                mainNav.classList.toggle('right-0');
+                mainNav.classList.toggle('bg-white');
+                mainNav.classList.toggle('dark:bg-gray-800');
+                mainNav.classList.toggle('p-4');
+                mainNav.classList.toggle('shadow-lg');
+                mainNav.classList.toggle('z-40');
+            });
+            
+            // Module accordion toggle
+            document.addEventListener('click', function(e) {
+                // Module header click
+                if (e.target.closest('.module-header')) {
+                    const moduleHeader = e.target.closest('.module-header');
+                    const moduleItem = moduleHeader.parentElement;
+                    const content = moduleItem.querySelector('.sidebar-accordion-content');
+                    const icon = moduleHeader.querySelector('i');
+                    
+                    // Toggle content
+                    if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                        content.style.maxHeight = '0';
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(180deg)';
+                        
+                        // Set this module as active
+                        const moduleId = parseInt(moduleHeader.getAttribute('data-module'));
+                        setActiveModule(moduleId);
+                    }
+                }
+                
+                // Topic link click
+                if (e.target.closest('.topic-link')) {
+                    const topicLink = e.target.closest('.topic-link');
+                    const topicId = topicLink.getAttribute('data-topic');
+                    
+                    // Set active topic
+                    setActiveTopic(topicId);
+                    
+                    // Mark topic as read
+                    markTopicAsRead(topicId);
+                    
+                    // On mobile, close the sidebar after clicking a topic
+                    if (window.innerWidth < 1024) {
+                        sidebar.classList.add('hidden');
+                    }
+                }
+            });
+            
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth < 1024 && 
+                    !sidebar.contains(e.target) && 
+                    !mobileMenuBtn.contains(e.target) &&
+                    !sidebar.classList.contains('hidden')) {
+                    sidebar.classList.add('hidden');
+                }
+            });
+            
+            // Show mobile sidebar when menu button is clicked
+            mobileMenuBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('fixed');
+                sidebar.classList.toggle('top-0');
+                sidebar.classList.toggle('left-0');
+                sidebar.classList.toggle('h-screen');
+                sidebar.classList.toggle('z-50');
+                sidebar.classList.toggle('w-64');
+                sidebar.classList.toggle('p-4');
+                sidebar.classList.toggle('bg-white');
+                sidebar.classList.toggle('dark:bg-gray-800');
+                sidebar.classList.toggle('shadow-xl');
+            });
+            
+            // Highlight active section on scroll
+            window.addEventListener('scroll', highlightActiveSection);
+            
+            // Mark module as completed when scrolled through
+            window.addEventListener('scroll', checkModuleCompletion);
+        }
+
+        // Dark mode functionality
+        function toggleDarkMode() {
+            if (document.documentElement.classList.contains('dark')) {
+                disableDarkMode();
+            } else {
+                enableDarkMode();
+            }
+        }
+
+        function enableDarkMode() {
+            document.documentElement.classList.add('dark');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun text-yellow-300"></i>';
+            localStorage.setItem('darkMode', 'enabled');
+        }
+
+        function disableDarkMode() {
+            document.documentElement.classList.remove('dark');
+            darkModeToggle.innerHTML = '<i class="fas fa-moon text-gray-800"></i>';
+            localStorage.setItem('darkMode', 'disabled');
+        }
+
+        // Update reading progress bar
+        function updateReadingProgress() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            readingProgress.style.width = scrolled + '%';
+            
+            // Show/hide scroll to top button
+            if (winScroll > 300) {
+                scrollToTopBtn.classList.remove('opacity-0', 'invisible');
+                scrollToTopBtn.classList.add('opacity-100', 'visible');
+            } else {
+                scrollToTopBtn.classList.remove('opacity-100', 'visible');
+                scrollToTopBtn.classList.add('opacity-0', 'invisible');
+            }
+        }
+
+        // Search functionality
+        function handleSearch() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            // Remove previous highlights
+            document.querySelectorAll('.search-highlight').forEach(el => {
+                const parent = el.parentNode;
+                parent.replaceChild(document.createTextNode(el.textContent), el);
+                parent.normalize();
+            });
+            
+            // If search is empty, reset and return
+            if (searchTerm === '') {
+                // Show all modules and topics
+                document.querySelectorAll('.module-item, .topic-section').forEach(el => {
+                    el.style.display = 'block';
+                });
+                return;
+            }
+            
+            // Search in module titles and topic titles
+            let foundAny = false;
+            
+            // Search in sidebar
+            document.querySelectorAll('.module-header span, .topic-link').forEach(el => {
+                const text = el.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    foundAny = true;
+                    
+                    // Highlight the matching text
+                    highlightText(el, searchTerm);
+                    
+                    // Expand parent module if it's a topic link
+                    if (el.classList.contains('topic-link')) {
+                        const moduleItem = el.closest('.module-item');
+                        const content = moduleItem.querySelector('.sidebar-accordion-content');
+                        const icon = moduleItem.querySelector('.module-header i');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                }
+            });
+            
+            // Search in main content
+            document.querySelectorAll('.topic-section h4, .topic-section h5, .topic-section p, .formula-box').forEach(el => {
+                const text = el.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    foundAny = true;
+                    highlightText(el, searchTerm);
+                    
+                    // Scroll to the first found element
+                    if (!document.querySelector('.search-highlight')) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+        }
+
+        // Highlight text within an element
+        function highlightText(element, searchTerm) {
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            const html = element.innerHTML;
+            element.innerHTML = html.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+
+        // Set active module
+        function setActiveModule(moduleId) {
+            // Remove active class from all modules
+            document.querySelectorAll('.module-header').forEach(header => {
+                header.classList.remove('bg-green-100', 'dark:bg-green-900', 'text-green-800', 'dark:text-green-300');
+            });
+            
+            // Add active class to clicked module
+            const activeHeader = document.querySelector(`.module-header[data-module="${moduleId}"]`);
+            if (activeHeader) {
+                activeHeader.classList.add('bg-green-100', 'dark:bg-green-900', 'text-green-800', 'dark:text-green-300');
+            }
+        }
+
+        // Set active topic
+        function setActiveTopic(topicId) {
+            // Remove active class from all topics
+            document.querySelectorAll('.topic-link').forEach(link => {
+                link.classList.remove('bg-green-100', 'dark:bg-green-800', 'text-green-800', 'dark:text-green-300');
+            });
+            
+            // Add active class to clicked topic
+            const activeLink = document.querySelector(`.topic-link[data-topic="${topicId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('bg-green-100', 'dark:bg-green-800', 'text-green-800', 'dark:text-green-300');
+            }
+        }
+
+        // Highlight active section on scroll
+        function highlightActiveSection() {
+            const topics = document.querySelectorAll('.topic-section');
+            const sidebarLinks = document.querySelectorAll('.topic-link');
+            
+            let currentTopic = '';
+            
+            topics.forEach(topic => {
+                const topicTop = topic.offsetTop;
+                const topicHeight = topic.clientHeight;
+                
+                if (window.scrollY >= topicTop - 200 && window.scrollY < topicTop + topicHeight - 200) {
+                    currentTopic = topic.id;
+                }
+            });
+            
+            // Remove active class from all topic links
+            sidebarLinks.forEach(link => {
+                link.classList.remove('bg-green-100', 'dark:bg-green-800', 'text-green-800', 'dark:text-green-300');
+            });
+            
+            // Add active class to current topic link
+            if (currentTopic) {
+                const activeLink = document.querySelector(`.topic-link[href="#${currentTopic}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('bg-green-100', 'dark:bg-green-800', 'text-green-800', 'dark:text-green-300');
+                    
+                    // Ensure parent module is expanded
+                    const moduleItem = activeLink.closest('.module-item');
+                    if (moduleItem) {
+                        const content = moduleItem.querySelector('.sidebar-accordion-content');
+                        const icon = moduleItem.querySelector('.module-header i');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                }
+            }
+        }
+
+        // Mark topic as read
+        function markTopicAsRead(topicId) {
+            // In a real application, you would save this to localStorage
+            // For now, we'll just update the UI
+            const topicLink = document.querySelector(`.topic-link[data-topic="${topicId}"]`);
+            if (topicLink) {
+                topicLink.classList.add('line-through', 'text-gray-500');
+            }
+        }
+
+        // Check module completion on scroll
+        function checkModuleCompletion() {
+            // This is a simplified version - in a real app, you'd track which topics the user has viewed
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const modules = document.querySelectorAll('.module-content');
+            
+            let completed = 0;
+            modules.forEach(module => {
+                const moduleBottom = module.offsetTop + module.offsetHeight;
+                if (scrollPosition > moduleBottom - 100) {
+                    completed++;
+                }
+            });
+            
+            // Update progress
+            completedCount.textContent = Math.min(completed, 20);
+            progressBar.style.width = `${(completed / 20) * 100}%`;
+        }
+
+        // Update progress
+        function updateProgress() {
+            // In a real app, you would load progress from localStorage
+            // For demo, we'll start with 1 completed module
+            completedCount.textContent = '1';
+            progressBar.style.width = '5%';
+        }
+    </script>
+</body>
+</html>
